@@ -2,6 +2,9 @@
 
 A full-featured Angular 21 e-commerce application with Tailwind CSS and json-server as a backend.
 
+🚀 Live Demo: https://drive.google.com/file/d/1p63xMFNxN7UO2KrAfNN__c5wy8WlsaR1/view?usp=sharing
+
+---
 ## Features
 
 - 🏠 **Home Page** — hero banner, category grid, featured products
