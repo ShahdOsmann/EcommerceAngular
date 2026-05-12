@@ -1,0 +1,93 @@
+<div class="min-h-screen bg-gray-50">
+
+  <!-- Hero -->
+  <section class="bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+      <div class="max-w-2xl">
+        <h1 class="text-5xl lg:text-6xl font-serif font-bold leading-tight mb-6">
+          Shop the finest collection
+        </h1>
+        <p class="text-gray-300 text-lg mb-10 leading-relaxed">
+          Discover premium products across electronics, fashion, and more.
+          Quality you can trust, prices you'll love.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a routerLink="/products"
+            class="px-8 py-3.5 bg-white text-gray-900 rounded-xl font-semibold hover:bg-gray-100 transition-colors">
+            Shop Now
+          </a>
+          <a routerLink="/orders"
+            class="px-8 py-3.5 border border-white text-white rounded-xl font-semibold hover:bg-white/10 transition-colors">
+            My Orders
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <h2 class="text-2xl font-serif font-bold text-gray-900 mb-8">Shop by Category</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div *ngFor="let cat of productsService.categories()"
+        class="bg-white rounded-2xl border border-gray-200 p-6 text-center shadow-sm hover:shadow-md transition-shadow cursor-pointer group"
+        [routerLink]="['/products']"
+        (click)="productsService.selectedCategory.set(cat.id)">
+        <div class="w-12 h-12 bg-gray-100 rounded-xl mx-auto mb-3 flex items-center justify-center group-hover:bg-gray-900 transition-colors">
+          <svg class="w-6 h-6 text-gray-600 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+        </div>
+        <p class="font-semibold text-gray-900 text-sm">{{ cat.name }}</p>
+        <p class="text-xs text-gray-400 mt-1">{{ cat.description }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+    <div class="flex items-center justify-between mb-8">
+      <h2 class="text-2xl font-serif font-bold text-gray-900">Featured Products</h2>
+      <a routerLink="/products"
+        class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
+        View all
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div *ngFor="let product of featuredProducts"
+        class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 group flex flex-col">
+
+        <a [routerLink]="['/products', product.id]" class="block overflow-hidden aspect-square bg-gray-100">
+          <img [src]="product.image" [alt]="product.name"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+        </a>
+
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">
+            {{ productsService.getCategoryName(product.categoryId) }}
+          </span>
+          <a [routerLink]="['/products', product.id]">
+            <h3 class="mt-1 font-semibold text-gray-900 hover:text-gray-600 transition-colors">
+              {{ product.name }}
+            </h3>
+          </a>
+          <div class="mt-auto pt-4 flex items-center justify-between">
+            <span class="text-lg font-bold text-gray-900">${{ product.price | number:'1.0-0' }}</span>
+          </div>
+          <button (click)="addToCart(product.id)"
+            [disabled]="product.stock === 0"
+            class="mt-3 w-full py-2.5 rounded-xl bg-gray-900 text-white text-sm font-medium
+                   hover:bg-gray-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

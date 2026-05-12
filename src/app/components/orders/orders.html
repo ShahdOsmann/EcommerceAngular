@@ -1,0 +1,68 @@
+<div class="min-h-screen bg-gray-50 px-6 py-12">
+  <div class="max-w-5xl mx-auto">
+
+    <h1 class="text-5xl font-serif font-bold text-gray-900 mb-10">My Orders</h1>
+
+    <!-- Empty State -->
+    <div *ngIf="ordersService.orders().length === 0"
+      class="text-center text-gray-400 text-lg py-20">
+      <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+      </svg>
+      You have no orders yet.
+      <div class="mt-4">
+        <a routerLink="/products" class="text-gray-900 underline font-medium">Start shopping</a>
+      </div>
+    </div>
+
+    <!-- Orders -->
+    <div *ngFor="let order of ordersService.orders()"
+      class="bg-white rounded-2xl border border-gray-200 shadow-sm mb-8 p-8">
+
+      <!-- Header -->
+      <div class="flex justify-between items-start">
+        <div>
+          <div class="flex items-center gap-3">
+            <h2 class="text-xl font-serif font-semibold">Order #{{ order.id }}</h2>
+            <span class="text-sm px-3 py-1 rounded-full bg-orange-100 text-orange-600 font-medium">
+              {{ order.status }}
+            </span>
+          </div>
+          <p class="text-gray-500 mt-1">Placed on {{ order.createdAt | date:'MMMM d, y' }}</p>
+        </div>
+
+        <div class="text-right">
+          <p class="text-2xl font-bold text-gray-900">${{ order.total | number:'1.2-2' }}</p>
+          <p class="text-gray-500">{{ order.items.length }} item{{ order.items.length > 1 ? 's' : '' }}</p>
+        </div>
+      </div>
+
+      <!-- Product Images -->
+      <div class="flex gap-4 mt-6">
+        <div *ngFor="let item of order.items"
+          class="w-20 h-20 rounded-xl bg-gray-100 overflow-hidden">
+          <img [src]="item.product?.image" [alt]="item.product?.name"
+            class="w-full h-full object-cover">
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200 my-6"></div>
+
+      <!-- Footer -->
+      <div class="flex justify-between items-center">
+        <p class="text-gray-600">
+          Ship to:
+          <span class="font-medium text-gray-900">
+            {{ order.shippingAddress?.city }}, {{ order.shippingAddress?.country }}
+          </span>
+        </p>
+        <a [routerLink]="['/orders', order.id]"
+          class="px-5 py-2 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-700 transition-colors">
+          View Details
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>

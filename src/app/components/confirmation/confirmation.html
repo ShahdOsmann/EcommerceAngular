@@ -1,0 +1,71 @@
+<div class="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+  <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl border border-gray-200 p-10">
+
+    <!-- Success Icon -->
+    <div class="flex justify-center mb-6">
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="text-4xl font-serif font-bold text-center text-gray-900 mb-2">
+      Order Confirmed
+    </h1>
+
+    <p class="text-center text-gray-500 mb-10">
+      Thank you for your purchase. Your order has been successfully placed.
+    </p>
+
+    <!-- Order Info -->
+    <ng-container *ngIf="confirmationService.order() as order; else loading">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div>
+          <h3 class="text-sm text-gray-400 uppercase tracking-wide mb-1">Order Number</h3>
+          <p class="text-lg font-semibold text-gray-900">#{{ order.id }}</p>
+        </div>
+        <div>
+          <h3 class="text-sm text-gray-400 uppercase tracking-wide mb-1">Order Date</h3>
+          <p class="text-lg font-semibold text-gray-900">{{ order.createdAt | date:'medium' }}</p>
+        </div>
+      </div>
+
+      <!-- Items -->
+      <div class="border-t border-gray-200 pt-6 space-y-4">
+        <div *ngFor="let item of confirmationService.orderItems()"
+          class="flex justify-between text-gray-700">
+          <span>Product #{{ item.productId }} × {{ item.quantity }}</span>
+          <span class="font-medium text-gray-900">${{ item.price * item.quantity | number:'1.2-2' }}</span>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-200 mt-6 pt-6 flex justify-between text-xl font-bold text-gray-900">
+        <span>Total</span>
+        <span>${{ order.total | number:'1.2-2' }}</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="mt-10 flex flex-col sm:flex-row gap-4">
+        <button (click)="goToOrders()"
+          class="flex-1 py-3 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-700 transition-colors">
+          View My Orders
+        </button>
+        <a routerLink="/products"
+          class="flex-1 py-3 border-2 border-gray-900 text-gray-900 rounded-xl font-semibold text-center hover:bg-gray-50 transition-colors">
+          Continue Shopping
+        </a>
+      </div>
+
+    </ng-container>
+
+    <ng-template #loading>
+      <div class="flex justify-center py-12">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900"></div>
+      </div>
+    </ng-template>
+
+  </div>
+</div>
